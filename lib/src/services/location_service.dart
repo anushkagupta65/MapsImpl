@@ -67,12 +67,13 @@ class LocationService {
             backgroundColor: Colors.white,
             title: const Text(
               "Location Services Disabled",
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.black, fontSize: 16),
             ),
             content: const Text(
               "Please enable location services in settings.",
               style: TextStyle(
                 color: Colors.black,
+                fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -82,6 +83,7 @@ class LocationService {
                 child: const Text(
                   "Cancel",
                   style: TextStyle(
+                    fontSize: 14,
                     color: AppColors.bluePrimary,
                     fontWeight: FontWeight.w600,
                   ),
@@ -89,12 +91,12 @@ class LocationService {
               ),
               TextButton(
                 onPressed: () async {
-                  Navigator.pop(context, true);
-                  await Geolocator.openLocationSettings();
+                  await Geolocator.openAppSettings();
                 },
                 child: const Text(
                   "Open Settings",
                   style: TextStyle(
+                    fontSize: 14,
                     color: AppColors.bluePrimary,
                     fontWeight: FontWeight.w600,
                   ),
@@ -114,11 +116,12 @@ class LocationService {
           (_) => AlertDialog(
             title: const Text(
               "Permission Required",
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.black, fontSize: 16),
             ),
             content: const Text(
               "We need your location to show nearby services. Would you like to grant permission?",
               style: TextStyle(
+                fontSize: 18,
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
               ),
@@ -129,6 +132,7 @@ class LocationService {
                 child: const Text(
                   "No Thanks",
                   style: TextStyle(
+                    fontSize: 14,
                     color: AppColors.bluePrimary,
                     fontWeight: FontWeight.w600,
                   ),
@@ -139,6 +143,7 @@ class LocationService {
                 child: const Text(
                   "Allow",
                   style: TextStyle(
+                    fontSize: 14,
                     color: AppColors.bluePrimary,
                     fontWeight: FontWeight.w600,
                   ),
@@ -155,18 +160,42 @@ class LocationService {
       barrierDismissible: false,
       builder:
           (_) => AlertDialog(
-            title: const Text("Permission Denied"),
+            title: const Text(
+              "Permission Denied",
+              style: TextStyle(color: Colors.black, fontSize: 16),
+            ),
             content: const Text(
               "Location access is disabled. Please enable it in app settings.",
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text("Cancel"),
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.bluePrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
               TextButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: const Text("Open Settings"),
+                onPressed: () async {
+                  await Geolocator.openAppSettings();
+                },
+                child: const Text(
+                  "Open Settings",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.bluePrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ],
           ),
