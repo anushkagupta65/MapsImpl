@@ -185,7 +185,8 @@ Make sure `.env` exists in the project root.
 | Location not showing | Permission denied | Allow location from system settings |
 | Autocomplete not working | Places API disabled | Enable Places API |
 
----## 🖼️ Screenshots
+
+## 🖼️ Screenshots
 
 ### 📍 App Preview Screens
 
