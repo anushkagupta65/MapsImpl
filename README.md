@@ -1,254 +1,209 @@
-# Flutter Google Maps Integration (Assessment)
+# Flutter Google Maps Assessment
 
-**Repository:** `(https://github.com/anushkagupta65/MapsImpl)`
-
----
-
-## Summary
-
-This project implements the Flutter Google Maps assessment: display a Google Map centered on the user's current location (with permission handling), allow dropping markers by tapping, accept a source and destination, draw a route (polyline) using the Google Directions API, and show total distance & estimated duration. Optional features such as Places Autocomplete, Clear Markers, and "My Location" button are also included as toggles
+**Repository:** https://github.com/anushkagupta65/MapsImpl  
+**Project Name:** `MapGo`
 
 ---
 
-## Features
+## 📌 Summary
 
-- Request and handle location permission (graceful denial message).
-- Show Google Map centered on user’s current location.
-- Drop markers by tapping any location on the map.
-- Input fields for **Source** and **Destination**.
-- Use Google Directions API to:
-  - Fetch route and draw polyline between source & destination.
-  - Display total distance and estimated duration for route.
-- Bonus (optional / included):
-  - Google Places Autocomplete for address entry (optional package).
-  - "Clear Markers" button.
-  - "My Location" floating button to re-centre on user location.
+This project is the implementation of the **Flutter Google Maps Assessment**, which includes:
 
-These features align with the assessment requirements. :contentReference[oaicite:2]{index=2}
+- Displaying Google Map centered on the user’s current location  
+- Handling location permissions  
+- Dropping markers on map tap  
+- Source & destination search  
+- Autocomplete search using Google Places API  
+- Fetching route from the Google Directions API  
+- Drawing polyline on the map  
+- Showing distance & estimated duration  
+- My Location button  
+- Clear markers  
+- Clean folder architecture (data → models → services → presentation → widgets → utils)
 
----
-
-## Screenshots
-
-![WhatsApp Image 2025-11-16 at 10 41 18 PM (1)](https://github.com/user-attachments/assets/81be2d1f-dd33-45a1-96ea-93f82fcb1e86)
-
+All requirements are fully implemented.
 
 ---
 
-## Prerequisites
-
-- Flutter SDK (>= 3.0 recommended)
-- Android Studio / Xcode (for emulators / devices)
-- A Google Cloud Platform project with the following APIs enabled:
-  - **Maps SDK for Android**
-  - **Maps SDK for iOS**
-  - **Directions API**
-  - **Places API** (only if using Autocomplete)
-
-> Note: Directions API may require billing to be enabled on the GCP project even for free-tier testing.
-
----
-
-## Packages / Dependencies
-
-Add these (or similar) to your `pubspec.yaml` under `dependencies:`:
-
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  google_maps_flutter: ^2.4.0
-  geolocator: ^9.0.2
-  permission_handler: ^10.0.0
-  flutter_dotenv: ^5.0.2
-  http: ^0.14.0
-  flutter_polyline_points: ^1.0.0
-  intl: ^0.18.0
-  # Optional:
-  google_place: ^0.6.0 # for Places Autocomplete (optional)
-```
-
-(Adjust versions as needed.)
-
----
-
-## Setup — Google API Keys
-
-**1. Create API key**
-
-- Go to Google Cloud Console → Create / choose a project → APIs & Services → Credentials → Create API key.
-
-**2. Enable APIs**
-
-- Enable Maps SDK for Android, Maps SDK for iOS, Directions API, and Places API (if used).
-
-**3. Restrict the key**
-
-- For development, you can leave it unrestricted (not recommended). For production, restrict by Android package name / iOS bundle ID and HTTP referrers.
-
-**4. Add API key to the app**
-
-Option A — using environment file (`.env`) and `flutter_dotenv` (recommended):
-
-- Create a file at project root named `.env` (do **not** commit to git).
-
-```
-GOOGLE_MAPS_API_KEY=YOUR_API_KEY_HERE
-```
-
-- Load this in `main.dart`:
-
-```dart
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
-  runApp(MyApp());
-}
-```
-
-Option B — Android / iOS native config (useful for Maps SDK):
-
-**Android** (`android/app/src/main/AndroidManifest.xml`) — add inside `<application>`:
-
-```xml
-<meta-data
-    android:name="com.google.android.geo.API_KEY"
-    android:value="YOUR_API_KEY_HERE" />
-```
-
-**iOS** (`ios/Runner/Info.plist`) — add:
-
-```xml
-<key>GMSApiKey</key>
-<string>YOUR_API_KEY_HERE</string>
-```
-
-If you use `flutter_dotenv`, pass the API key into widgets that need it.
-
----
-
-## Android-specific Setup
-
-- In `android/app/build.gradle` ensure `minSdkVersion` >= 20 (or as required by packages).
-- Add the `meta-data` entry in `AndroidManifest.xml` as shown above.
-- Add permissions in `AndroidManifest.xml`:
-
-```xml
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-```
-
----
-
-## iOS-specific Setup
-
-- Open `ios/Runner/Info.plist` and add:
-
-```xml
-<key>NSLocationWhenInUseUsageDescription</key>
-<string>App requires location to show your current position on the map.</string>
-```
-
-- Add `GMSApiKey` entry shown above.
-- Enable `Maps` capability in Xcode if necessary.
-
----
-
-## Example: Getting Directions & Drawing Polyline
-
-A simplified flow (the full implementation resides in the app):
-
-1. Convert source/destination text into coordinates:
-
-   - Option 1: Geocoding (server or Geocoding API).
-   - Option 2: Let user tap map as source/destination (you already get LatLng).
-
-2. Call Directions API:
-
-   ```
-   https://maps.googleapis.com/maps/api/directions/json?origin=lat,lng&destination=lat,lng&key=YOUR_API_KEY
-   ```
-
-   - Parse returned `overview_polyline.points`.
-   - Use `flutter_polyline_points` to decode and create a `List<LatLng>`.
-
-3. Create `Polyline` and add to `GoogleMap` `polylines` set.
-
-4. Extract distance & duration from `routes[0].legs[0].distance.text` and `routes[0].legs[0].duration.text`.
-
----
-
-## Run the App
-
-1. Install dependencies:
-
-```bash
-flutter pub get
-```
-
-2. Prepare `.env` (if used) or ensure API keys are set in native files.
-
-3. Run on device/emulator:
-
-```bash
-flutter run
-```
-
----
-
-## Troubleshooting
-
-- **Blank map tiles**: ensure the API key is valid and Maps SDK is enabled for the platform.
-- **Directions not returning**: check Directions API is enabled, and that billing is enabled if required.
-- **Permissions denied**: app should show a friendly explanation and a button to open app settings (use `permission_handler`).
-
----
-
-## Project Structure (example)
+## 📁 Project Structure (Actual)
 
 ```
 lib/
-  main.dart
-  screens/
-    map_screen.dart
-  services/
-    location_service.dart
-    directions_service.dart
-  widgets/
-    location_input.dart
-    route_info_card.dart
-assets/
-  images/
+└── src/
+    ├── data/
+    │   ├── directions_api.dart
+    │   └── places_api.dart
+    │
+    ├── models/
+    │   ├── prediction.dart
+    │   └── route_info.dart
+    │
+    ├── presentation/
+    │   ├── screens/
+    │   │   ├── map_screen.dart
+    │   │   └── route_search_screen.dart
+    │   │
+    │   └── widgets/
+    │       ├── custom_autocomplete.dart
+    │       └── search_bar.dart
+    │
+    ├── services/
+    │   ├── location_service.dart
+    │   └── map_service.dart
+    │
+    ├── utils/
+    │   ├── app_colors.dart
+    │   └── app_constants.dart
+    │
+    └── main.dart
+```
+
+This clean architecture separates **API**, **Models**, **UI**, **Widgets**, **Services**, and **Utilities**.
+
+---
+
+## 🎯 Features Implemented
+
+### 🔹 Core Requirements
+
+- ✔️ Display Google Map  
+- ✔️ Get current location  
+- ✔️ Handle permissions (Geolocator)  
+- ✔️ Tap on map → Add marker  
+- ✔️ Search source & destination  
+- ✔️ Google Places autocomplete  
+- ✔️ Fetch Directions API route  
+- ✔️ Draw polyline  
+- ✔️ Show distance & duration  
+
+### 🔹 Extra UX Features
+
+- ✔️ “My Location” floating button  
+- ✔️ “Clear Markers” button  
+- ✔️ Smooth animations using **Lottie**  
+- ✔️ Custom fonts via **google_fonts**  
+- ✔️ Clean & responsive UI  
+
+---
+
+## 🚀 Dependencies (From pubspec.yaml)
+
+```
+google_maps_flutter: ^2.9.0
+geolocator: ^13.0.1
+http: ^1.2.2
+flutter_polyline_points: ^2.1.0
+uuid: ^4.5.0
+google_places_flutter: ^2.0.6
+provider: ^6.1.5+1
+lottie: ^3.3.1
+google_fonts: ^6.3.2
+flutter_dotenv: ^6.0.0
+```
+
+### Dev dependencies
+
+```
+flutter_lints: ^5.0.0
+flutter_test:
+```
+
+### Assets
+
+```
+assets/lottie/
+assets/images/
+.env
 ```
 
 ---
 
-## Approach (brief)
+## 🔑 Google API Key Setup
 
-- Use `geolocator` to get current location and to request/handle permissions.
-- Use `google_maps_flutter` to render map, markers, and polylines.
-- Use `flutter_polyline_points` to decode route polylines from Directions API responses.
-- Use `http` to call Directions API and parse JSON for distance/duration.
-- (Optional) Use `google_place` for autocomplete inputs to improve UX.
+### 1️⃣ Create API Key  
+From Google Cloud Console → Enable:
 
-This approach keeps separation of concerns by moving API calls into `services/` and UI into `screens/` and `widgets/`.
+- Maps SDK (Android/iOS)
+- Directions API
+- Places API
+
+### 2️⃣ Add Key in `.env`:
+
+```
+GOOGLE_MAPS_API_KEY=YOUR_API_KEY
+```
+
+### 3️⃣ Load `.env` in `main.dart`:
+
+```dart
+await dotenv.load(fileName: ".env");
+```
+
+### 4️⃣ Add API Key to AndroidManifest.xml
+
+```xml
+<meta-data
+  android:name="com.google.android.geo.API_KEY"
+  android:value="${GOOGLE_MAPS_API_KEY}" />
+```
+
+### 5️⃣ Add API Key to Info.plist (iOS)
+
+```xml
+<key>GMSApiKey</key>
+<string>YOUR_API_KEY</string>
+```
 
 ---
 
-## Notes on Assessment Requirements
+## 📍 How Routing Works (Short Explanation)
 
-The app implements the core tasks from the assessment: map display centered on user location, marker drop on tap, routing via Directions API with polyline and distance/duration display. Optional features like Places Autocomplete, Clear Markers, and My Location floating button can be toggled on or off. See the original assessment document for exact requirements. :contentReference[oaicite:3]{index=3}
+1. User selects source & destination  
+2. Google Places API returns place_id  
+3. Directions API is called via **directions_api.dart**  
+4. Response → decoded using **PolylinePoints**  
+5. Polyline drawn on map  
+6. Distance & duration parsed → displayed in UI  
 
 ---
 
-## License
+## ▶️ Run the App
 
-MIT License — feel free to adapt for your submission.
+```
+flutter pub get
+flutter run
+```
+
+Make sure `.env` exists in the project root.
 
 ---
 
-## Contact
+## 🧩 Troubleshooting
 
-If you want me to update this README with actual screenshots or the final repo link, paste the repo URL and I will update the README content accordingly.
+| Issue | Reason | Fix |
+|------|--------|-----|
+| Map tiles not loading | Wrong / missing API key | Check Android & iOS setup |
+| Directions API returns ZERO_RESULTS | Billing not enabled | Enable billing in Google Cloud |
+| Location not showing | Permission denied | Allow location from system settings |
+| Autocomplete not working | Places API disabled | Enable Places API |
+
+---
+
+## 🖼️ Screenshots
+
+| Map View | Autocomplete | Route Drawing |
+|---------|--------------|---------------|
+| ![img1](https://github.com/user-attachments/assets/81be2d1f-dd33-45a1-96ea-93f82fcb1e86) | ![img2](https://github.com/user-attachments/assets/6d23da66-b331-4159-8203-42132e7e1682) | ![img3](https://github.com/user-attachments/assets/6b724977-5da0-4a59-80f9-c7ef147544fe) |
+
+---
+
+## 📜 License
+
+MIT License — open for use and enhancement.
+
+---
+
+## 📩 Contact
+
+If you want this README updated with GIF demo or more technical documentation, feel free to ask!
+
