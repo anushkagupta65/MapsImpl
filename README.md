@@ -1,14 +1,12 @@
 # Flutter Google Maps Integration (Assessment)
 
-**Repository:** `<your-github-repo-url>`  
-**Author:** `<Your Name>`  
-**Date:** `<YYYY-MM-DD>`
+**Repository:** `(https://github.com/anushkagupta65/MapsImpl)`
 
 ---
 
 ## Summary
 
-This project implements the Flutter Google Maps assessment: display a Google Map centered on the user's current location (with permission handling), allow dropping markers by tapping, accept a source and destination, draw a route (polyline) using the Google Directions API, and show total distance & estimated duration. Optional features such as Places Autocomplete, Clear Markers, and "My Location" button are also included as toggles (see features). :contentReference[oaicite:1]{index=1}
+This project implements the Flutter Google Maps assessment: display a Google Map centered on the user's current location (with permission handling), allow dropping markers by tapping, accept a source and destination, draw a route (polyline) using the Google Directions API, and show total distance & estimated duration. Optional features such as Places Autocomplete, Clear Markers, and "My Location" button are also included as toggles
 
 ---
 
@@ -32,7 +30,8 @@ These features align with the assessment requirements. :contentReference[oaicite
 
 ## Screenshots
 
-_Add screenshots of your app here (optional)._
+![WhatsApp Image 2025-11-16 at 10 41 18 PM (1)](https://github.com/user-attachments/assets/81be2d1f-dd33-45a1-96ea-93f82fcb1e86)
+
 
 ---
 
