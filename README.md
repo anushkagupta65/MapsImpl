@@ -115,19 +115,19 @@ To run this project, **you must add your Google API key in 3 places**:
 
 ---
 
-## **1️⃣ Add API Key in `.env` (Project Root)**
+## **1️⃣ Add your API Key in `.env` (Project Root)**
 
-Create a `.env` file:
+In `.env` file:
 
 ```
-API_KEY=YOUR_API_KEY
+API_KEY=YOUR_API_KEY_HERE
 ```
 
 Do **NOT** push this file to GitHub.
 
 ---
 
-## **2️⃣ Add API Key in Android → `AndroidManifest.xml`**
+## **2️⃣ Add your API Key in Android → `AndroidManifest.xml`**
 
 Open:
 
