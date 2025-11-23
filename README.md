@@ -24,7 +24,7 @@ This project is the implementation of **Google Maps**, which includes:
 
 ---
 
-## 📁 Project Structure (Actual)
+## 📁 Project Structure
 
 ```
 lib/
@@ -227,13 +227,3 @@ Make sure:
 </details>
 
 ---
-
-## 📜 License
-
-MIT License — free to use & modify.
-
----
-
-## 📩 Contact
-
-If you want this README updated with GIF demo, API documentation, or auto-generated diagrams — feel free to ask!
